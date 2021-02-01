@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    Animator animations;   // On cree une variable utilisant le component Animation que l' on apelle animations
+    Animator animations1;   // On cree une variable utilisant le component Animation que l' on apelle animations
 
     // Variable de vitesse
 
@@ -21,15 +21,28 @@ public class Player : MonoBehaviour
     public string inputRight;   // Droite
     public string Playername = "Squelette"; // Nom du personnage
 
+    // Variable d' attaque
+
+    public float attackcooldown;    // Delai entre chaque attaque
+    public bool isAttacking;    // Retourne Oui si entrain d' attaquer retourne Non si aucune attaque
+    public float currentcooldown;    // Delai actuel
+    public float attackrange;   // Portee de l' attaque
+
     // Variable de hauteur de saut
     public Vector3 jumphigh;   // Vector3 haut bas, jumpspeed = hauteur de saut
     
     // Collision du joueur
     CapsuleCollider playerCollider; // On cree une variable utilisant le component Capsule collider que l' on apelle playerCollider qui sert a la collision du joueur
-
+    public GameObject RayHit;
     // Variable de stat
     // Le fait de rajouter public devant une variable permet de rendre publique celle ci dans l' editeur de unity
 
+    public Image hpImage;  // On creer une variable Image HP
+    public Image mpImage;  // On creer une variable Image MP
+    public Text hpText; // Debug HP
+    public Text mpText; // Debug MP
+
+    public int Level = 1;
     public int HPMax = 10;
     public int CurrentHP = 10;
     public int MPMax = 10;
@@ -44,7 +57,7 @@ public class Player : MonoBehaviour
     public int Chc = 1;
     public int Crit = 1;
 
-    public int ExpMax = 10;
+    public int ExpMax = 50;
     public int CurrentExp = 0;
 
     // Boolean
@@ -54,8 +67,13 @@ public class Player : MonoBehaviour
     // Ici commence le script du joueur
     void Start()    // S' execute au lancement une fois
     {
-        animations = gameObject.GetComponent<Animator>();  // On charge le component Animation qui est egal a animations
+        hpImage = GameObject.Find("CurrentHP").GetComponent<Image>();  // On cherche l' objet currentHP dans unity et recupere le component Image
+        mpImage = GameObject.Find("CurrentMP").GetComponent<Image>();   // Idem pour MP
+        hpText = GameObject.Find("HPDebug").GetComponent<Text>();
+        mpText = GameObject.Find("MPDebug").GetComponent<Text>();
+        animations1 = gameObject.GetComponent<Animator>();  // On charge le component Animation qui est egal a animations
         playerCollider = gameObject.GetComponent<CapsuleCollider>();     // On charge le component CapsuleCollider qui est egal a playerCollider
+        RayHit = GameObject.Find("RayHit");
     }
     bool isGrounded()
     {
@@ -66,27 +84,27 @@ public class Player : MonoBehaviour
         if (Input.GetKey(inputFront) && !Input.GetKey(KeyCode.LeftShift))   // ! Veut dire de ne pas appuyer sur Maj Gauche, && veut dire et
         {
             transform.Translate(0, 0, walkSpeed * Time.deltaTime);  // Personnage avance, on effectue une transformation de la position du joueur par rapport a sa vitesse de marche dans le temp
-            animations.Play("Walk01");    // On joue l' animation marcher lier au perso sur Unity       // ATTENTION ANIMATION PAS LU
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                Attack();
+            }
         }
         if (Input.GetKey(inputFront) && Input.GetKey(KeyCode.LeftShift))
         {
             transform.Translate(0, 0, walkSpeed * Time.deltaTime);  // Sprint en Avant Maj Gauche + Z
-            animations.Play("Run");
+
         }
         if (Input.GetKey(inputBack))
         {
             transform.Translate(0, 0, -(walkSpeed / 2)* Time.deltaTime);  // Ici le personnage recule il reculera deux fois moins vite quil avancera
-            animations.Play("Walk01");
         }
         if (Input.GetKey(inputLeft))
         {
             transform.Rotate(0, -turnSpeed * Time.deltaTime, 0);    // Ici le personnage tourne a gauche (rotation susceptible de changer)
-            animations.Play("Walk01");
         }
         if (Input.GetKey(inputRight))
         {
             transform.Rotate(0, turnSpeed * Time.deltaTime, 0);    // Ici le personnage tourne a droite (rotation susceptible de changer)
-            animations.Play("Walk01");
         }
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded())    // Ici le personnage saute && isGrounded() sert a verifier que la boolean est vrai, Down veut dire une fois
         {
@@ -95,5 +113,99 @@ public class Player : MonoBehaviour
 
             gameObject.GetComponent<Rigidbody>().velocity = jumphigh;
         }
+        if (Input.GetKeyDown(KeyCode.Mouse0))   // Si on effectue un clic gauche a la souris,  mouse 1 = clic droit
+        {
+            Attack();   // On apelle notre fonction d' attaque
+        }
+
+        // Pour la barre HP la barre de vie de l' image est egal au hp courant / HPMax 
+        hpImage.fillAmount = CurrentHP / HPMax;
+        // Idem pour la barre MP
+        mpImage.fillAmount = CurrentMP / MPMax;
+
+        // Section Debug
+        hpText.text = CurrentHP.ToString(); // On dit que La variable hpText qui est un component text est egal a la variable CurrentHP que l' on convertit de integer en string pour lajouter au texte
+        mpText.text = CurrentMP.ToString(); // Idem
+
+        if (CurrentHP > HPMax)
+        {
+            CurrentHP = HPMax;  // Si la vie depasse les HPMax on la remet au HPMax
+        }
+        if (CurrentMP > MPMax)
+        {
+            CurrentMP = MPMax;  // Idem
+        }
+        if (CurrentHP <= 0)
+        {
+            Dead = true;    // Si la vie est egal a 0 boolean Dead retourne vrai = mort du perso
+        }
+        if (CurrentMP <= 0)
+        {
+            NoMP = true;    // Si les mp sont egaux a 0 boolean NoMP retourne vrai = impossible de cast 0 mp
+        }
+        if (Dead == true)
+        {
+
+        }
+        if (NoMP == true)
+        {
+
+        }
+        if (isAttacking == true)
+        {
+            currentcooldown -= Time.deltaTime;   // Si on attaque on baisse le temp du cooldown au fur et a mesure
+        }
+        if (currentcooldown <= 0)   // Une fois le cooldown redescendue a 0 le personnage peut de nouveau attaquer
+        {
+            currentcooldown = attackcooldown;
+            isAttacking = false;
+        }
+
+    }
+    public void Damage(int DamageAmount)
+    {
+        CurrentHP -= DamageAmount;  // Quand on prend un coup on retire de la vie par rapport a la variable DamageAmount
+    }
+    public void Heal(int HealAmount)
+    {
+        CurrentHP += HealAmount;    // Quand on soigne avec un sort ou une potion de HP on ajoute de la vie par rapport a la variable HealAmount
+    }
+    public void Cast(int CastAmount)
+    {
+        CurrentMP -= CastAmount;    // Quand on cast un sort on retire des mp par rapport a la variable CastAmount
+    }
+    public void RechargeMP(int RechargeMPAmount)
+    {
+        CurrentMP += RechargeMPAmount;  // Quand on utilise une potion de MP ou evenement on ajoute des mp par rapport a la variable RechargeMPAmount
+    }
+    
+    public void LevelUp(int Level)
+    {
+        if (CurrentExp >= ExpMax)
+        {
+            CurrentExp = ExpMax;
+            ExpMax += 50;   // On ajoute 50 dexp max en plus necessaire a levelup
+            Level += 1; // On rajoute un niveau au personnage
+            HPMax += 10;
+            MPMax += 5;
+        }
+    }
+    public void Attack()    // On joue l' attaque
+    {
+        if (!isAttacking)   // Si on attaque
+        {
+            RaycastHit hit; // On cree un raycast qui verifie se quil touche
+            if (Physics.Raycast(RayHit.transform.position, transform.TransformDirection(Vector3.forward), out hit, attackrange)) // Si un ennemi est toucher par rapport a la position
+            // du joueur sa direction, le coup et la portee.
+            {
+                Debug.DrawLine(RayHit.transform.position, hit.point, Color.red);// Un raycast ne saffiche pas de base sur cette ligne on laffiche pour
+                // debug verifier que les coups fonctionnent bien a supprimer apres .
+                if (hit.transform.tag == "Ennemy")
+                {
+                    print(hit.transform.name + "detected");
+                }
+            }
+        }
+        isAttacking = true;
     }
 }
