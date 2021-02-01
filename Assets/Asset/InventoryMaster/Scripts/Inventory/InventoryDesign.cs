@@ -81,13 +81,12 @@ public class InventoryDesign : MonoBehaviour
             cross.SetActive(showInventoryCross);
         }
     }
-
-    [System.Obsolete]
+[System.Obsolete]
     public void updateAllSlots()
     {
         Image slot = null;
 #if UNITY_EDITOR
-        Object prefab = PrefabUtility.CreateEmptyPrefab("Assets/InventoryMaster/Resources/Prefabs/Slot - Inventory.prefab");
+        Object prefab = PrefabUtility.CreateEmptyPrefab("Asset/InventoryMaster/Resources/Prefabs/Slot - Inventory.prefab");
 #endif
 
         for (int i = 0; i < transform.GetChild(1).childCount; i++)

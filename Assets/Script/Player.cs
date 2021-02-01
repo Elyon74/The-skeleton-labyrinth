@@ -194,11 +194,11 @@ public class Player : MonoBehaviour
     {
         if (!isAttacking)   // Si on attaque
         {
-            RaycastHit hit; // On cree un raycast qui verifie se quil touche
-            if (Physics.Raycast(RayHit.transform.position, transform.TransformDirection(Vector3.forward), out hit, attackrange)) // Si un ennemi est toucher par rapport a la position
+            // On cree un raycast qui verifie se quil touche
+            if (Physics.Raycast(RayHit.transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, attackrange)) // Si un ennemi est toucher par rapport a la position
             // du joueur sa direction, le coup et la portee.
             {
-                Debug.DrawLine(RayHit.transform.position, hit.point, Color.red);// Un raycast ne saffiche pas de base sur cette ligne on laffiche pour
+                Debug.DrawLine(RayHit.transform.position, hit.point, Color.red);    // Un raycast ne saffiche pas de base sur cette ligne on laffiche pour
                 // debug verifier que les coups fonctionnent bien a supprimer apres .
                 if (hit.transform.tag == "Ennemy")
                 {
