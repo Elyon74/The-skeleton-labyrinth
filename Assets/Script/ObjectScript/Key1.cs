@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Key1 : MonoBehaviour
 {
-    // Start is called before the first frame update
+    BoxCollider Key1Collider;
+
+    public bool Keyy1 = false;
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKey(KeyCode.E))
+        {
+           Keyy1 = true;
+
+        }
     }
 }

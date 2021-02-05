@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Switch1 : MonoBehaviour
 {
-    // Start is called before the first frame update
+    BoxCollider Switch1Collider;
+
+    public bool Switchh1 = false;
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKey(KeyCode.E))
+        {
+            Switchh1 = true;
+
+        }
     }
 }

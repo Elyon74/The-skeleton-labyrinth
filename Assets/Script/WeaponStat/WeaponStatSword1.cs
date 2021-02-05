@@ -4,21 +4,20 @@ using UnityEngine;
 
 public class WeaponStatSword1 : MonoBehaviour
 {
-    public int Atq = 5;
-    public int MAtq = 5;
+    public Player Player;   // On cree une variable public Player
 
     void Start()
     {
-        GameObject.Find("Player").GetComponent<Player>();
+        Player = GameObject.Find("Player").GetComponent<Player>();    // On recupere les variables de stat de l' objet Player et de sont component Player
+        StatBoost();
     }
 
     void Update()
     {
-        
     }
     public void StatBoost()
     {
-        // Atk += 5; On applique les stats de l' arme aux stat du perso
-        // AtkMag += 5;
+        Player.Atk += 4; // On ajoute les stats de l' arme aux stat du perso
+        Player.AtkMag += 4;
     }
 }

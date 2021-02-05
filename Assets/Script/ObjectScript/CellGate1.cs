@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class CellGate1 : MonoBehaviour
 {
-    // Start is called before the first frame update
+    BoxCollider CellGate1Collider;
+
+    public Switch1 Switch1;
     void Start()
     {
-        
+        Switch1 = GameObject.Find("Switch1").GetComponent<Switch1>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        // if (Switchh1 == true)
+        {
+            ;
+        }
     }
 }

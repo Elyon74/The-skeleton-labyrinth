@@ -15,24 +15,7 @@ public class PlayerInventory : MonoBehaviour
     private Tooltip toolTip;
 
     private InputManager inputManagerDatabase;
-
-    public int HPMax = 10;
-    public int CurrentHP = 10;
-    public int MPMax = 10;
-    public int CurrentMP = 10;
-
-    public int Atk = 1;
-    public int MaxAtk;
-    public int AtkMag = 1;
-    public int MaxAtkMag;
-    public int Def = 1;
-    public int MaxDef;
-    public int DefMag = 1;
-    public int MaxDefMag;
-
-    public int Vit = 1;
-    public int Chc = 1;
-    public int Crit = 1;
+    public Player Player;   // On cree une variable public Player
 
     int normalSize = 3;
 
@@ -41,9 +24,9 @@ public class PlayerInventory : MonoBehaviour
         Inventory.ItemEquip += OnBackpack;
         Inventory.UnEquipItem += UnEquipBackpack;
 
-        Inventory.ItemEquip += OnGearItem;
-        Inventory.ItemConsumed += OnConsumeItem;
-        Inventory.UnEquipItem += OnUnEquipItem;
+        // Desactiver voir ligne 152 a 214 simplement supprimer les // Inventory.ItemEquip += OnGearItem;
+        // Desactiver voir ligne 152 a 214 simplement supprimer les // Inventory.ItemConsumed += OnConsumeItem;
+        // Desactiver voir ligne 152 a 214 simplement supprimer les // Inventory.UnEquipItem += OnUnEquipItem;
 
         Inventory.ItemEquip += EquipWeapon;
         Inventory.UnEquipItem += UnEquipWeapon;
@@ -53,9 +36,9 @@ public class PlayerInventory : MonoBehaviour
         Inventory.ItemEquip -= OnBackpack;
         Inventory.UnEquipItem -= UnEquipBackpack;
 
-        Inventory.ItemEquip -= OnGearItem;
-        Inventory.ItemConsumed -= OnConsumeItem;
-        Inventory.UnEquipItem -= OnUnEquipItem;
+        // Desactiver voir ligne 152 a 214 simplement supprimer les // Inventory.ItemEquip -= OnGearItem;
+        // Desactiver voir ligne 152 a 214 simplement supprimer les // Inventory.ItemConsumed -= OnConsumeItem;
+        // Desactiver voir ligne 152 a 214 simplement supprimer les // Inventory.UnEquipItem -= OnUnEquipItem;
 
         Inventory.UnEquipItem -= UnEquipWeapon;
         Inventory.ItemEquip -= EquipWeapon;
@@ -64,7 +47,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (item.itemType == ItemType.Weapon)
         {
-            //add the weapon if you unequip the weapon
+            //add the weapon if you equip the weapon
         }
     }
     void UnEquipWeapon(Item item)
@@ -150,7 +133,7 @@ public class PlayerInventory : MonoBehaviour
     }
     void Start()
     {
-
+        Player = GetComponent<Player>();    // On recupere les variables de stat l' objet Player et de sont component Player
         if (inputManagerDatabase == null)
             inputManagerDatabase = (InputManager)Resources.Load("InputManager");
 
@@ -166,68 +149,69 @@ public class PlayerInventory : MonoBehaviour
         if (craftSystem != null)
             craftSystemInventory = craftSystem.GetComponent<Inventory>();
     }
-    public void OnConsumeItem(Item item)
-    {
-        for (int i = 0; i < item.itemAttributes.Count; i++)
-        {
-            if (item.itemAttributes[i].attributeName == "Health")
-            {
-                if ((CurrentHP + item.itemAttributes[i].attributeValue) > HPMax)
-                    CurrentHP = HPMax;
-                else
-                    CurrentHP += item.itemAttributes[i].attributeValue;
-            }
-            if (item.itemAttributes[i].attributeName == "Mana")
-            {
-                if ((CurrentMP + item.itemAttributes[i].attributeValue) > MPMax)
-                    CurrentMP = MPMax;
-                else
-                    CurrentMP += item.itemAttributes[i].attributeValue;
-            }
-            if (item.itemAttributes[i].attributeName == "Armor")
-            {
-                if ((Def + item.itemAttributes[i].attributeValue) > MaxDef)
-                    Def = MaxDef;
-                else
-                    Def += item.itemAttributes[i].attributeValue;
-            }
-            if (item.itemAttributes[i].attributeName == "Damage")
-            {
-                if ((Atk + item.itemAttributes[i].attributeValue) > MaxAtk)
-                    Atk = MaxAtk;
-                else
-                    Atk += item.itemAttributes[i].attributeValue;
-            }
-        }
-    }
-    public void OnGearItem(Item item)
-    {
-        for (int i = 0; i < item.itemAttributes.Count; i++)
-        {
-            if (item.itemAttributes[i].attributeName == "Health")
-                HPMax += item.itemAttributes[i].attributeValue;
-            if (item.itemAttributes[i].attributeName == "Mana")
-                MPMax += item.itemAttributes[i].attributeValue;
-            if (item.itemAttributes[i].attributeName == "Armor")
-                MaxDef += item.itemAttributes[i].attributeValue;
-            if (item.itemAttributes[i].attributeName == "Damage")
-                MaxAtk += item.itemAttributes[i].attributeValue;
-        }
-    }
-    public void OnUnEquipItem(Item item)
-    {
-        for (int i = 0; i < item.itemAttributes.Count; i++)
-        {
-            if (item.itemAttributes[i].attributeName == "Health")
-                HPMax -= item.itemAttributes[i].attributeValue;
-            if (item.itemAttributes[i].attributeName == "Mana")
-                MPMax -= item.itemAttributes[i].attributeValue;
-            if (item.itemAttributes[i].attributeName == "Armor")
-                MaxDef -= item.itemAttributes[i].attributeValue;
-            if (item.itemAttributes[i].attributeName == "Damage")
-                MaxAtk -= item.itemAttributes[i].attributeValue;
-        }
-    }
+    // public void OnConsumeItem(Item item)    // Desactiver car les valeurs d' ajout de restauration, ajout de stat des objets sont ajouter sur l' objet lui meme et pas par rapport au script de l' inventaire (TEST)
+    //{
+        //for (int i = 0; i < item.itemAttributes.Count; i++)
+        //{
+            //if (item.itemAttributes[i].attributeName == "Health")
+            //{
+                //if ((Player.CurrentHP + item.itemAttributes[i].attributeValue) > Player.HPMax)
+                //    Player.CurrentHP = Player.HPMax;
+                //else
+                //    Player.CurrentHP += item.itemAttributes[i].attributeValue;
+            //}
+            //if (item.itemAttributes[i].attributeName == "Mana")
+            //{
+                //if ((Player.CurrentMP + item.itemAttributes[i].attributeValue) > Player.MPMax)
+                //    Player.CurrentMP = Player.MPMax;
+                //else
+                //    Player.CurrentMP += item.itemAttributes[i].attributeValue;
+            //}
+            //if (item.itemAttributes[i].attributeName == "Armor")
+            //{
+                //if ((Player.Def + item.itemAttributes[i].attributeValue) > Player.MaxDef)
+                //    Player.Def = Player.MaxDef;
+                //else
+                    //Player.Def += item.itemAttributes[i].attributeValue;
+            //}
+            //if (item.itemAttributes[i].attributeName == "Damage")
+            //{
+                //if ((Player.Atk + item.itemAttributes[i].attributeValue) > Player.MaxAtk)
+                    //Player.Atk = Player.MaxAtk;
+                //else
+                    //Player.Atk += item.itemAttributes[i].attributeValue;
+            //}
+        //}
+    //}
+    // Desactiver car les valeurs d' ajout de stat des armes armures sont ajouter sur l' objet lui meme et pas par rapport au script de l' inventaire (TEST)
+    // public void OnGearItem(Item item)    Fonction qui permet lors de l' equipement d'une arme/armure daugmenter les stats associer.
+    //{
+        //for (int i = 0; i < item.itemAttributes.Count; i++)
+        //{
+          //  if (item.itemAttributes[i].attributeName == "Health") Ici on augmente les HPMax du perso
+          //      Player.HPMax += item.itemAttributes[i].attributeValue;
+          //  if (item.itemAttributes[i].attributeName == "Mana") Ici on augmente les MPMax du perso
+          //      Player.MPMax += item.itemAttributes[i].attributeValue;
+          //  if (item.itemAttributes[i].attributeName == "Armor") Ici on augmente la valeur actuelle de defense du perso sachant que la valeur de MaxDef est de 999
+          //      Player.Def += item.itemAttributes[i].attributeValue;
+          //  if (item.itemAttributes[i].attributeName == "Damage")
+          //      Player.Atk += item.itemAttributes[i].attributeValue;
+        //}
+    //}
+    // public void OnUnEquipItem(Item item) Fonction utiliser lorsque l' on desequipe une arme/armure
+    //{
+        //for (int i = 0; i < item.itemAttributes.Count; i++)
+        //{
+            // if (item.itemAttributes[i].attributeName == "Health")
+            //    Player.HPMax -= item.itemAttributes[i].attributeValue;
+            // if (item.itemAttributes[i].attributeName == "Mana")
+            //    Player.MPMax -= item.itemAttributes[i].attributeValue;
+            // if (item.itemAttributes[i].attributeName == "Armor")
+            //    Player.Def -= item.itemAttributes[i].attributeValue;
+            // if (item.itemAttributes[i].attributeName == "Damage")
+            //    Player.Atk -= item.itemAttributes[i].attributeValue;
+        //}
+    //}
     void Update()
     {
         if (Input.GetKeyDown(inputManagerDatabase.CharacterSystemKeyCode))

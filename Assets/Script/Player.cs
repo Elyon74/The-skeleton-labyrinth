@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    // Debug.log("Texte"); permet d' afficher un texte dans la console unity pour tester une fonctionalliter
     Animator animations1;   // On cree une variable utilisant le component Animation que l' on apelle animations
+    CapsuleCollider playerCollider; // On cree une variable utilisant le component Capsule collider que l' on apelle playerCollider qui sert a la collision du joueur
 
     // Variable de vitesse
 
@@ -30,10 +33,8 @@ public class Player : MonoBehaviour
 
     // Variable de hauteur de saut
     public Vector3 jumphigh;   // Vector3 haut bas, jumpspeed = hauteur de saut
-    
-    // Collision du joueur
-    CapsuleCollider playerCollider; // On cree une variable utilisant le component Capsule collider que l' on apelle playerCollider qui sert a la collision du joueur
     public GameObject RayHit;
+
     // Variable de stat
     // Le fait de rajouter public devant une variable permet de rendre publique celle ci dans l' editeur de unity
 
@@ -41,24 +42,39 @@ public class Player : MonoBehaviour
     public Image mpImage;  // On creer une variable Image MP
     public Text hpText; // Debug HP
     public Text mpText; // Debug MP
+    public Text atkText;
+    public Text atkmagText;
+    public Text defText;
+    public Text defmagText;
 
-    public int Level = 1;
-    public int HPMax = 10;
-    public int CurrentHP = 10;
-    public int MPMax = 10;
-    public int CurrentMP = 10;
 
-    public int Atk = 1;
-    public int AtkMag = 1;
-    public int Def = 1;
-    public int DefMag = 1;
+    public int Level;
+    public int HPMax;
+    public int CurrentHP;
+    public int MPMax;
+    public int CurrentMP;
 
-    public int Vit = 1;
-    public int Chc = 1;
-    public int Crit = 1;
+    public int Atk;
+    public int AtkMag;
+    public int Def;
+    public int DefMag;
 
-    public int ExpMax = 50;
-    public int CurrentExp = 0;
+    public int MaxAtk;
+    public int MaxAtkMag;
+    public int MaxDef;
+    public int MaxDefMag;
+
+    public int Vit;
+    public int Chc;
+    public int Crit;
+
+    public int ExpMax;
+    public int CurrentExp;
+
+    public int DamageAmount;
+    public int HealAmount;
+    public int CastAmount;
+    public int RechargeMPAmount;
 
     // Boolean
     public bool Dead = false;   // Mort
@@ -71,9 +87,14 @@ public class Player : MonoBehaviour
         mpImage = GameObject.Find("CurrentMP").GetComponent<Image>();   // Idem pour MP
         hpText = GameObject.Find("HPDebug").GetComponent<Text>();
         mpText = GameObject.Find("MPDebug").GetComponent<Text>();
+        atkText = GameObject.Find("Atk1").GetComponent<Text>();
+        atkmagText = GameObject.Find("Atkmag1").GetComponent<Text>();
+        defText = GameObject.Find("Def1").GetComponent<Text>();
+        defmagText = GameObject.Find("Defmag1").GetComponent<Text>();
         animations1 = gameObject.GetComponent<Animator>();  // On charge le component Animation qui est egal a animations
         playerCollider = gameObject.GetComponent<CapsuleCollider>();     // On charge le component CapsuleCollider qui est egal a playerCollider
         RayHit = GameObject.Find("RayHit");
+        animations1 = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
     }
     bool isGrounded()
     {
@@ -125,7 +146,11 @@ public class Player : MonoBehaviour
 
         // Section Debug
         hpText.text = CurrentHP.ToString(); // On dit que La variable hpText qui est un component text est egal a la variable CurrentHP que l' on convertit de integer en string pour lajouter au texte
-        mpText.text = CurrentMP.ToString(); // Idem
+        mpText.text = CurrentMP.ToString();
+        atkText.text = Atk.ToString();
+        atkmagText.text = AtkMag.ToString();
+        defText.text = Def.ToString();
+        defmagText.text = DefMag.ToString();
 
         if (CurrentHP > HPMax)
         {
@@ -145,7 +170,8 @@ public class Player : MonoBehaviour
         }
         if (Dead == true)
         {
-
+            SceneManager.LoadScene("TitleScreen");
+            CurrentHP = HPMax;
         }
         if (NoMP == true)
         {
@@ -160,7 +186,10 @@ public class Player : MonoBehaviour
             currentcooldown = attackcooldown;
             isAttacking = false;
         }
-
+        if (CurrentExp >= ExpMax)
+        {
+            LevelUp(Level);
+        }
     }
     public void Damage(int DamageAmount)
     {
@@ -178,17 +207,13 @@ public class Player : MonoBehaviour
     {
         CurrentMP += RechargeMPAmount;  // Quand on utilise une potion de MP ou evenement on ajoute des mp par rapport a la variable RechargeMPAmount
     }
-    
     public void LevelUp(int Level)
     {
-        if (CurrentExp >= ExpMax)
-        {
-            CurrentExp = ExpMax;
+            CurrentExp = 0;
             ExpMax += 50;   // On ajoute 50 dexp max en plus necessaire a levelup
             Level += 1; // On rajoute un niveau au personnage
-            HPMax += 10;
-            MPMax += 5;
-        }
+            HPMax += 10; // On augmente ces HP Max de 10 point
+            MPMax += 5; // On augmente ces MP Max de 5 point
     }
     public void Attack()    // On joue l' attaque
     {
@@ -199,10 +224,10 @@ public class Player : MonoBehaviour
             // du joueur sa direction, le coup et la portee.
             {
                 Debug.DrawLine(RayHit.transform.position, hit.point, Color.red);    // Un raycast ne saffiche pas de base sur cette ligne on laffiche pour
-                // debug verifier que les coups fonctionnent bien a supprimer apres .
+                // debug verifier que les coups fonctionnent bien .
                 if (hit.transform.tag == "Ennemy")
                 {
-                    print(hit.transform.name + "detected");
+                    print(hit.transform.name + "detecter");
                 }
             }
         }

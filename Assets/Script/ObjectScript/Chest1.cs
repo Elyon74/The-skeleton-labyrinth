@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class Chest1 : MonoBehaviour
 {
-    // Start is called before the first frame update
+    BoxCollider Chest1Collider;
+
+    public Key1 Key1;
     void Start()
     {
-        
+        Key1 = GameObject.Find("Key1").GetComponent<Key1>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        // if (Keyy1 == true)
+        {
+            ;
+        }
     }
 }
