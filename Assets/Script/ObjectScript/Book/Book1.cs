@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class Book1 : MonoBehaviour
 {
-    // Start is called before the first frame update
+    BoxCollider Book1Collider;
+
+    public bool Bookk1;
     void Start()
     {
-        
+        Book1Collider = gameObject.GetComponent<BoxCollider>();
     }
-
-    // Update is called once per frame
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.name == "Player")
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                Bookk1 = true;
+                Destroy(gameObject, 1);
+            }
+        }
+    }
     void Update()
     {
-        
     }
 }

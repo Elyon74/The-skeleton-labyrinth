@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     // Debug.log("Texte"); permet d' afficher un texte dans la console unity pour tester une fonctionalliter
-    Animator animations1;   // On cree une variable utilisant le component Animation que l' on apelle animations
+    // GameObject.Find("").SetActive = false;  permet de desactiver lobjet selectionner (non voyant ingame non interagisable)
+    Animator animations1;   // On cree une variable utilisant le component Animator que l' on apelle animations
     CapsuleCollider playerCollider; // On cree une variable utilisant le component Capsule collider que l' on apelle playerCollider qui sert a la collision du joueur
 
     // Variable de vitesse
@@ -104,16 +105,29 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKey(inputFront) && !Input.GetKey(KeyCode.LeftShift))   // ! Veut dire de ne pas appuyer sur Maj Gauche, && veut dire et
         {
+            animations1.SetBool("Walk", true);
             transform.Translate(0, 0, walkSpeed * Time.deltaTime);  // Personnage avance, on effectue une transformation de la position du joueur par rapport a sa vitesse de marche dans le temp
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Mouse0))   // Si on effectue un clic gauche a la souris,  mouse 1 = clic droit
             {
-                Attack();
+                Attack();   // On apelle notre fonction d' attaque
             }
+        }
+        else
+        {
+            animations1.SetBool("Walk", false);
+        }
+        if (Input.GetKeyDown(KeyCode.Mouse0))   // Si on effectue un clic gauche a la souris,  mouse 1 = clic droit
+        {
+            Attack();   // On apelle notre fonction d' attaque
         }
         if (Input.GetKey(inputFront) && Input.GetKey(KeyCode.LeftShift))
         {
+            animations1.SetBool("Run", true);
             transform.Translate(0, 0, walkSpeed * Time.deltaTime);  // Sprint en Avant Maj Gauche + Z
-
+        }
+        else
+        {
+            animations1.SetBool("Run", false);
         }
         if (Input.GetKey(inputBack))
         {
@@ -129,14 +143,14 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded())    // Ici le personnage saute && isGrounded() sert a verifier que la boolean est vrai, Down veut dire une fois
         {
+            animations1.SetBool("Jump", true);
             Vector3 v = gameObject.GetComponent<Rigidbody>().velocity;  // Preparation du saut on stock la valeur de la velociter avec .velocity du component rigidbody
             v.y = jumphigh.y;    // Enfin on dis que le vecteur de saut est egal a la hauteur de saut sur laxe y
-
             gameObject.GetComponent<Rigidbody>().velocity = jumphigh;
         }
-        if (Input.GetKeyDown(KeyCode.Mouse0))   // Si on effectue un clic gauche a la souris,  mouse 1 = clic droit
+        else
         {
-            Attack();   // On apelle notre fonction d' attaque
+            animations1.SetBool("Jump", false);
         }
 
         // Pour la barre HP la barre de vie de l' image est egal au hp courant / HPMax 
@@ -170,12 +184,13 @@ public class Player : MonoBehaviour
         }
         if (Dead == true)
         {
+            animations1.SetBool("Death", true);
             SceneManager.LoadScene("TitleScreen");
             CurrentHP = HPMax;
         }
-        if (NoMP == true)
+        if (NoMP == true && Input.GetKey(KeyCode.Mouse1))
         {
-
+            animations1.SetBool("Spell", false);
         }
         if (isAttacking == true)
         {
@@ -190,9 +205,24 @@ public class Player : MonoBehaviour
         {
             LevelUp(Level);
         }
+        if(Input.GetKey(KeyCode.Mouse1)) // Si on appue sur la touche clic droit souris on lance un sort on execute la fonction cast
+        {
+            if (CurrentMP >= 1)
+            {
+                Cast(CastAmount);
+            }
+        }
+        else
+        {
+            animations1.SetBool("Spell", false);
+        }
+        // Si on prend un coup on execute la fonction damage. if()
+        // {
+        // }
     }
     public void Damage(int DamageAmount)
     {
+        animations1.SetBool("Hitted", true);
         CurrentHP -= DamageAmount;  // Quand on prend un coup on retire de la vie par rapport a la variable DamageAmount
     }
     public void Heal(int HealAmount)
@@ -201,6 +231,7 @@ public class Player : MonoBehaviour
     }
     public void Cast(int CastAmount)
     {
+        animations1.SetBool("Spell", true);
         CurrentMP -= CastAmount;    // Quand on cast un sort on retire des mp par rapport a la variable CastAmount
     }
     public void RechargeMP(int RechargeMPAmount)
@@ -219,17 +250,22 @@ public class Player : MonoBehaviour
     {
         if (!isAttacking)   // Si on attaque
         {
+            animations1.SetBool("Attack", true);    // Si on attaque on active la boolean Attack contenue dans notre animator en true qui permet de jouer l' anim d' attaque de notre personnage contenue dans l' animator
             // On cree un raycast qui verifie se quil touche
             if (Physics.Raycast(RayHit.transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, attackrange)) // Si un ennemi est toucher par rapport a la position
             // du joueur sa direction, le coup et la portee.
             {
-                Debug.DrawLine(RayHit.transform.position, hit.point, Color.red);    // Un raycast ne saffiche pas de base sur cette ligne on laffiche pour
+                Debug.DrawLine(RayHit.transform.position, hit.point, Color.red);    // Un raycast ne saffiche pas de base sur cette ligne on laffiche pour voir si l' ennemi est toucher !
                 // debug verifier que les coups fonctionnent bien .
                 if (hit.transform.tag == "Ennemy")
                 {
                     print(hit.transform.name + "detecter");
                 }
             }
+        }
+        else
+        {
+            animations1.SetBool("Attack", false);
         }
         isAttacking = true;
     }

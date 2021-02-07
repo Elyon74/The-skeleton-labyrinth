@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class CellGate2 : MonoBehaviour
 {
-    BoxCollider CellGate2Collider;
-
     public Switch2 Switch2;
+
     void Start()
     {
         Switch2 = GameObject.Find("Switch2").GetComponent<Switch2>();
@@ -14,9 +13,9 @@ public class CellGate2 : MonoBehaviour
 
     void Update()
     {
-        // if (Switchh2 == true)
+        if (Switch2.Switchh2 == true)
         {
-            ;
+            this.gameObject.transform.Rotate(new Vector3(0.0f, 0.0f, Time.deltaTime * 70f), Space.World);
         }
     }
 }

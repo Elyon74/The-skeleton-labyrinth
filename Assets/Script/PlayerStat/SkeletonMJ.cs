@@ -19,6 +19,7 @@ public class SkeletonMJ : MonoBehaviour
     public bool isAttacking;
     public float currentcooldown;
     public float attackrange;
+    public int speedMJ;
 
     public int Level;
     public string Ennemyname = "SkeletonMJ";
@@ -67,7 +68,8 @@ public class SkeletonMJ : MonoBehaviour
         }
         if (DeadMJ == true)
         {
-
+            animations2.SetBool("Death", true);
+            Destroy(gameObject, 1);
         }
         if (isAttacking == true)
         {
@@ -81,16 +83,22 @@ public class SkeletonMJ : MonoBehaviour
     }
     public void Damage(int DamageAmountMJ)
     {
+        animations2.SetBool("Hitted", true);
         CurrentHP -= DamageAmountMJ;
     }
     public void Attack()
     {
         if (!isAttacking)
         {
+            animations2.SetBool("Attack", true);
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, attackrange))
             {
                 ;
             }
+        }
+        else
+        {
+            animations2.SetBool("Attack", false);
         }
         isAttacking = true;
     }
