@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     // Variable de hauteur de saut
     public Vector3 jumphigh;   // Vector3 haut bas, jumpspeed = hauteur de saut
     public GameObject RayHit;
+    public SkeletonMJ Skeleton;
 
     // Variable de stat
     // Le fait de rajouter public devant une variable permet de rendre publique celle ci dans l' editeur de unity
@@ -96,6 +97,7 @@ public class Player : MonoBehaviour
         playerCollider = gameObject.GetComponent<CapsuleCollider>();     // On charge le component CapsuleCollider qui est egal a playerCollider
         RayHit = GameObject.Find("RayHit");
         animations1 = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
+        Skeleton = GameObject.Find("SkeletonMJ").GetComponent<SkeletonMJ>();
     }
     bool isGrounded()
     {
@@ -259,7 +261,7 @@ public class Player : MonoBehaviour
                 // debug verifier que les coups fonctionnent bien .
                 if (hit.transform.tag == "Ennemy")
                 {
-                    print(hit.transform.name + "detecter");
+                   // Skeleton.hit.transform.GetComponent<SkeletonMJ>.Damage(DamageAmount);
                 }
             }
         }

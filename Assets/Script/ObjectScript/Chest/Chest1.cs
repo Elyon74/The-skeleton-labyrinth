@@ -22,7 +22,7 @@ public class Chest1 : MonoBehaviour
             {
                 if (Key1.Keyy1 == true)
                 {
-                    Cylindre.gameObject.transform.Rotate(new Vector3(0.0f, 0.0f, Time.deltaTime * 70f), Space.World);
+                    Cylindre.gameObject.transform.Rotate(new Vector3(0.0f, 0.0f, Time.deltaTime * 100f), Space.World);
                     Key1.Keyy1 = false;
                 }
             }
@@ -32,7 +32,7 @@ public class Chest1 : MonoBehaviour
     {
         if (col.name == "Player")
         {
-            Cylindre.gameObject.transform.Rotate(new Vector3(0.0f, 0.0f, Time.deltaTime * -70f), Space.World);
+            Cylindre.gameObject.transform.Rotate(new Vector3(0.0f, 0.0f, Time.deltaTime * 100f), Space.World);
         }
     }
     void Update()

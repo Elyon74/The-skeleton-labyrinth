@@ -15,7 +15,7 @@ public class CellGate2 : MonoBehaviour
     {
         if (Switch2.Switchh2 == true)
         {
-            this.gameObject.transform.Rotate(new Vector3(0.0f, 0.0f, Time.deltaTime * 70f), Space.World);
+            this.gameObject.transform.Rotate(new Vector3(0.0f, Time.deltaTime * 50f, 0.0f), Space.World);
         }
     }
 }
