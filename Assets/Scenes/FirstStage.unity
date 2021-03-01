@@ -12463,6 +12463,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 861348156}
     - target: {fileID: 3524481162144713993, guid: 0b84d8a0dcbacb84497fcc39abeabad8, type: 3}
+      propertyPath: Skeleton
+      value: 
+      objectReference: {fileID: 327454528}
+    - target: {fileID: 3524481162144713993, guid: 0b84d8a0dcbacb84497fcc39abeabad8, type: 3}
       propertyPath: runSpeed
       value: 6
       objectReference: {fileID: 0}
