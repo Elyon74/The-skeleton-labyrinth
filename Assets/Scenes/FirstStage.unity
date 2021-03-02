@@ -6089,7 +6089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c55f442553abe5744beaa959757e218e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Switchh2: 1
+  Switchh2: 0
 --- !u!1 &1001452559
 GameObject:
   m_ObjectHideFlags: 0
@@ -6245,7 +6245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 689e9b6bc67d10f42b1b5e3c17860a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Keyy1: 1
+  Keyy1: 0
 --- !u!1 &1021004837 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b19b76dbfdde1da468822bd03a09e196, type: 3}
@@ -7392,6 +7392,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: cc2bcf1ae9f547f488e6161ccadafe4a, type: 3}
       propertyPath: m_Name
       value: clef coffre
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cc2bcf1ae9f547f488e6161ccadafe4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: cc2bcf1ae9f547f488e6161ccadafe4a, type: 3}
       propertyPath: m_TagString
@@ -9404,7 +9408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3db465664585d54c8197d1ca55e1adc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Switchh1: 1
+  Switchh1: 0
 --- !u!1 &1976708830
 GameObject:
   m_ObjectHideFlags: 0
