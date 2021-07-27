@@ -254,16 +254,16 @@ public class Player : MonoBehaviour
         {
             animations1.SetBool("Attack", true);    // Si on attaque on active la boolean Attack contenue dans notre animator en true qui permet de jouer l' anim d' attaque de notre personnage contenue dans l' animator
             // On cree un raycast qui verifie se quil touche
-            if (Physics.Raycast(RayHit.transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, attackrange)) // Si un ennemi est toucher par rapport a la position
+            // if (Physics.Raycast(RayHit.transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, attackrange)) // Si un ennemi est toucher par rapport a la position
             // du joueur sa direction, le coup et la portee.
-            {
-                Debug.DrawLine(RayHit.transform.position, hit.point, Color.red);    // Un raycast ne saffiche pas de base sur cette ligne on laffiche pour voir si l' ennemi est toucher !
+            // {
+                // Debug.DrawLine(RayHit.transform.position, hit.point, Color.red);    // Un raycast ne saffiche pas de base sur cette ligne on laffiche pour voir si l' ennemi est toucher !
                 // debug verifier que les coups fonctionnent bien .
-                if (hit.transform.tag == "Ennemy")
-                {
+                // if (hit.transform.tag == "Ennemy")
+                // {
                    // Skeleton.hit.transform.GetComponent<SkeletonMJ>.Damage(DamageAmount);
-                }
-            }
+                // }
+            // }
         }
         else
         {

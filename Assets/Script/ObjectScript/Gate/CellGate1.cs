@@ -8,7 +8,7 @@ public class CellGate1 : MonoBehaviour
 
     void Start()
     {
-        Switch1 = GameObject.Find("Switch1").GetComponent<Switch1>();
+        Switch1 = GameObject.Find("chaine interupteur").GetComponent<Switch1>();
     }
 
     void Update()

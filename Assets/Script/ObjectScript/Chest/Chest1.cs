@@ -10,7 +10,7 @@ public class Chest1 : MonoBehaviour
     public GameObject Cylindre;
     void Start()
     {
-        Key1 = GameObject.Find("Key1").GetComponent<Key1>();
+        Key1 = GameObject.Find("clef coffre").GetComponent<Key1>();
         Chest1Collider = gameObject.GetComponent<BoxCollider>();
         Cylindre = GameObject.Find("Cylindre");
     }
