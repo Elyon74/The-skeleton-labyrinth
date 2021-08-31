@@ -214,6 +214,10 @@ public class Player : MonoBehaviour
                 Cast(CastAmount);
             }
         }
+        if(Input.GetKey(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("EchapMenu");
+        }
         else
         {
             animations1.SetBool("Spell", false);

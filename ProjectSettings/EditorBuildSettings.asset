@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FirstStage.unity
     guid: 33111f3e972e7424c9f03ec8f5247272
+  - enabled: 1
+    path: Assets/Scenes/EchapMenu.unity
+    guid: 13a77fbdfc5beb74699e53039f25a9fd
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: 5cccaea5c1f1770489a154ddbe2d6e42
   m_configObjects: {}
