@@ -382,9 +382,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 7c26997d707f62b4cb0981a277306242, type: 3}
-        m_TargetAssemblyTypeName: Mainmenu, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1006888605}
+        m_TargetAssemblyTypeName: EchapMenu, Assembly-CSharp
+        m_MethodName: RestoreGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -515,13 +515,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 7c26997d707f62b4cb0981a277306242, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1006888605}
+        m_TargetAssemblyTypeName: EchapMenu, Assembly-CSharp
+        m_MethodName: LoadAGame1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -648,9 +648,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 7c26997d707f62b4cb0981a277306242, type: 3}
-        m_TargetAssemblyTypeName: Mainmenu, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1006888605}
+        m_TargetAssemblyTypeName: EchapMenu, Assembly-CSharp
+        m_MethodName: QuitTheGame1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
