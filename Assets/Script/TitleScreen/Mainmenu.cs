@@ -7,7 +7,7 @@ public class Mainmenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("FirstStage");   // On lance le 1er niveau
+        SceneManager.LoadScene(1);   // On lance le 1er niveau
     }
     public void LoadGame()
     {

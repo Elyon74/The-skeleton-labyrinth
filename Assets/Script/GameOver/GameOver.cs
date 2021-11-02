@@ -7,7 +7,7 @@ public class GameOver : MonoBehaviour
 {
     public void NewGame()
     {
-        SceneManager.LoadScene("FirstStage");   // On lance le 1er niveau
+        SceneManager.LoadScene(1);   // On lance le 1er niveau
     }
     public void LoadAGame()
     {
